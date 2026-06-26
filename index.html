@@ -3,1243 +3,1150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elektrotechnik &amp; Leistungselektronik – Zusammenfassung HSLU FS26</title>
+<title>Wegmarken — Struktur bis September</title>
 <style>
-  :root {
-    --bg: #f4f8fb;
-    --bg-soft: #eaf3fb;
-    --surface: #ffffff;
-    --card: #ffffff;
-    --border: #d6e2ec;
-    --accent: #0065a8;
-    --accent2: #1b8a5a;
-    --accent3: #d64545;
-    --accent4: #c48a00;
-    --accent5: #7357c8;
-    --text: #172033;
-    --muted: #627083;
-    --formula-bg: #f0f6ff;
-    --formula-border: #b8d5f4;
-    --shadow: 0 10px 28px rgba(15, 35, 55, 0.08);
-    --shadow-soft: 0 4px 14px rgba(15, 35, 55, 0.06);
+
+  /* ===== Tokens ===== */
+  :root{
+    --track-red: #2D7DD2;      /* Haupt-Blau, war früher Rot */
+    --track-red-dim: #6FA8DC;  /* helleres Blau für Verläufe */
+    --cinder: #F5FAFC;         /* heller, leicht blauer Hintergrund, war dunkel */
+    --chalk: #143A52;          /* dunkles Marineblau als "Text auf Akzent", war hell */
+    --lane: #FFFFFF;           /* Kartenflächen, war dunkle Lane */
+    --lane-light: #E3EEF3;     /* helle Trennlinien/Flächen, war dunkle Lane-light */
+    --paper: #2E5A73;          /* sekundärer Fliesstext, war helles Paper */
+    --gold: #F2B84B;           /* Sommer-Sand/Gelb als zweiter Akzent, war Gold auf Dunkel */
+    --mute: #7A93A0;           /* gedämpfter Blauton statt warmes Grau */
+    --ink: #143A52;            /* Haupttext, dunkles Marineblau statt Chalk */
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: Inter, 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    background:
-      radial-gradient(circle at top left, rgba(0,101,168,0.12), transparent 30%),
-      linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 280px, #ffffff 100%);
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.65;
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  body{
+    background: var(--cinder);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 80px;
   }
 
-  .header {
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow-soft);
-    padding: 18px 24px;
-    position: sticky; top: 0; z-index: 100;
-    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  /* ===== Lane track header ===== */
+  .track-header{
+    position: relative;
+    background: linear-gradient(180deg, #EAF5FA 0%, var(--cinder) 100%);
+    padding: 30px 20px 26px;
+    overflow: hidden;
   }
-  .header h1 { font-size: 22px; font-weight: 800; color: var(--accent); letter-spacing: -0.3px; }
-  .header .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .nav { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
-  .nav a {
-    font-size: 11px; padding: 6px 11px; border-radius: 999px;
-    background: #f7fbff; border: 1px solid var(--border);
-    color: var(--muted); text-decoration: none; transition: all 0.15s ease;
+  .lane-lines{
+    position:absolute; left:0; right:0; bottom:0; height:46px;
+    background: radial-gradient(circle at 20% 120%, rgba(45,125,210,0.10), transparent 60%),
+                radial-gradient(circle at 80% 130%, rgba(242,184,75,0.14), transparent 55%);
+    pointer-events:none;
   }
-  .nav a:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: translateY(-1px); }
-
-  .container { max-width: 1400px; margin: 0 auto; padding: 24px 20px 70px; }
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-  @media(max-width:900px) { .grid-2,.grid-3,.compare-grid { grid-template-columns: 1fr !important; } .nav { margin-left: 0; } .header { position: relative; } }
-
-  .section { margin-bottom: 32px; }
-  .section-title {
-    font-size: 18px; font-weight: 800; color: var(--accent);
-    border-left: 5px solid var(--accent); padding: 9px 14px;
-    background: linear-gradient(90deg, rgba(0,101,168,0.11), rgba(255,255,255,0));
-    border-radius: 0 12px 12px 0;
-    margin-bottom: 16px; letter-spacing: -0.1px;
+  .track-header::after{
+    content:'';
+    position:absolute; left:0; right:0; bottom:0; height:3px;
+    background: linear-gradient(90deg, var(--track-red), var(--gold));
   }
-  .section-title.green { color: var(--accent2); border-left-color: var(--accent2); background: linear-gradient(90deg, rgba(27,138,90,0.11), rgba(255,255,255,0)); }
-  .section-title.red { color: var(--accent3); border-left-color: var(--accent3); background: linear-gradient(90deg, rgba(214,69,69,0.10), rgba(255,255,255,0)); }
-  .section-title.yellow { color: var(--accent4); border-left-color: var(--accent4); background: linear-gradient(90deg, rgba(196,138,0,0.12), rgba(255,255,255,0)); }
-  .section-title.purple { color: var(--accent5); border-left-color: var(--accent5); background: linear-gradient(90deg, rgba(115,87,200,0.11), rgba(255,255,255,0)); }
-
-  .card {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 16px; padding: 16px 18px; box-shadow: var(--shadow-soft);
+  .eyebrow{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--track-red);
+    margin-bottom: 8px;
+    position:relative;
+    font-weight: 600;
   }
-  .card h3 {
-    font-size: 13px; font-weight: 800; color: var(--accent2);
-    margin-bottom: 10px; padding-bottom: 7px;
-    border-bottom: 1px solid var(--border);
-    text-transform: uppercase; letter-spacing: 0.5px;
+  h1{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    position:relative;
+    color: var(--ink);
   }
-  .card h3.blue { color: var(--accent); }
-  .card h3.red { color: var(--accent3); }
-  .card h3.yellow { color: var(--accent4); }
-  .card h3.purple { color: var(--accent5); }
-
-  .formula {
-    background: var(--formula-bg);
-    border: 1px solid var(--formula-border);
-    border-radius: 10px; padding: 9px 12px;
-    font-family: 'Cascadia Mono', 'Consolas', 'Courier New', monospace;
-    font-size: 13px; color: #123a63;
-    margin: 7px 0; text-align: center;
-    line-height: 1.8;
-  }
-  .formula .label {
-    font-family: 'Segoe UI', sans-serif;
-    font-size: 11px; color: var(--muted); text-align: left; margin-bottom: 4px;
-  }
-  .formula big { font-size: 16px; color: var(--accent); font-weight: 800; }
-  .formula sub { font-size: 10px; }
-
-  .rule {
-    background: #f8fbfe; border-radius: 10px; padding: 9px 12px;
-    margin: 6px 0; border-left: 4px solid var(--accent);
+  .today-date{
+    font-family: var(--font-mono);
     font-size: 13px;
-  }
-  .rule.green { border-left-color: var(--accent2); }
-  .rule.red { border-left-color: var(--accent3); }
-  .rule.yellow { border-left-color: var(--accent4); }
-  .rule.purple { border-left-color: var(--accent5); }
-  .rule strong { color: var(--accent); }
-  .rule.green strong { color: var(--accent2); }
-  .rule.red strong { color: var(--accent3); }
-  .rule.yellow strong { color: var(--accent4); }
-  .rule.purple strong { color: var(--accent5); }
-
-  table { width: 100%; border-collapse: collapse; font-size: 12.5px; overflow: hidden; border-radius: 10px; }
-  th {
-    background: #eaf4ff; color: var(--accent);
-    padding: 8px 10px; text-align: left; font-weight: 800;
-    border-bottom: 1px solid var(--formula-border);
-  }
-  td { padding: 7px 10px; border-bottom: 1px solid #e8eef5; vertical-align: top; }
-  tr:last-child td { border-bottom: none; }
-  tr:hover td { background: #f7fbff; }
-  td code {
-    font-family: 'Cascadia Mono', 'Consolas', 'Courier New', monospace; font-size: 12px;
-    color: #123a63; background: var(--formula-bg);
-    padding: 2px 6px; border-radius: 5px;
+    color: var(--paper);
+    margin-top: 8px;
+    position:relative;
   }
 
-  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .compare-card {
-    background: #ffffff; border-radius: 16px; padding: 14px 16px;
-    border: 1px solid var(--border); box-shadow: var(--shadow-soft);
+  /* ===== Progress bahn ===== */
+  .bahn-wrap{
+    padding: 22px 20px 6px;
   }
-  .compare-card .ctitle {
-    font-size: 13px; font-weight: 800; text-align: center;
-    padding: 8px; border-radius: 10px; margin-bottom: 10px;
-    letter-spacing: 0.3px;
+  .bahn-label{
+    display:flex; justify-content:space-between; align-items:baseline;
+    margin-bottom:10px;
   }
-  .serie .ctitle { background: rgba(0,101,168,0.12); color: var(--accent); }
-  .parallel .ctitle { background: rgba(27,138,90,0.12); color: var(--accent2); }
-  .compare-card .formula { text-align: left; }
-
-  .badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 700; margin-left: 6px; vertical-align: middle; }
-  .badge-blue { background: rgba(0,101,168,0.12); color: var(--accent); }
-  .badge-green { background: rgba(27,138,90,0.12); color: var(--accent2); }
-  .badge-red { background: rgba(214,69,69,0.12); color: var(--accent3); }
-  .badge-yellow { background: rgba(196,138,0,0.14); color: var(--accent4); }
-
-  .curve-box { display: flex; gap: 12px; align-items: stretch; margin: 8px 0; }
-  .curve-text { flex: 1; font-size: 12.5px; }
-  ul { padding-left: 18px; }
-  li { margin: 3px 0; font-size: 13px; }
-  p { margin: 4px 0; font-size: 13px; }
-
-  .tip {
-    background: #fff8e1; border: 1px solid #f0d782;
-    border-radius: 14px; padding: 11px 14px; margin: 9px 0; font-size: 13px;
+  .bahn-label .from, .bahn-label .to{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
   }
-  .tip strong { color: var(--accent4); }
-  [id] { scroll-margin-top: 90px; }
+  .bahn-label .day-count{
+    font-family: var(--font-display);
+    color: var(--track-red);
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    font-weight: 600;
+  }
+  .bahn{
+    position: relative;
+    height: 14px;
+    background: var(--lane-light);
+    border-radius: 8px;
+    overflow: visible;
+    border: 1px solid var(--lane-light);
+  }
+  .bahn-fill{
+    height: 100%;
+    background: linear-gradient(90deg, var(--track-red-dim), var(--track-red));
+    border-radius: 8px 0 0 8px;
+    transition: width 0.6s ease;
+  }
+  .bahn-marker{
+    position:absolute; top:-6px; bottom:-6px;
+    width:2px; background: rgba(20,58,82,0.18);
+  }
+  .bahn-marker .marker-label{
+    position:absolute; top:-20px; left:50%; transform:translateX(-50%);
+    font-family: var(--font-mono); font-size:9px; color: var(--mute);
+    white-space:nowrap;
+  }
+  .runner-dot{
+    position:absolute; top:50%; width:18px; height:18px;
+    background: #FFFFFF; border:3px solid var(--track-red);
+    border-radius:50%; transform: translate(-50%,-50%);
+    box-shadow: 0 2px 6px rgba(45,125,210,0.35);
+    transition: left 0.6s ease;
+    z-index: 5;
+  }
 
-  @media print {
-    .header { position: static; box-shadow: none; }
-    .nav { display: none; }
-    body { background: #fff; font-size: 11px; }
-    .container { padding: 0; }
-    .card, .compare-card { box-shadow: none; break-inside: avoid; }
-    .section { break-inside: avoid; margin-bottom: 18px; }
+  /* ===== Phase nav ===== */
+  .phase-nav{
+    display:flex; gap:6px; padding: 18px 20px 4px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .phase-nav::-webkit-scrollbar{ display:none; }
+  .phase-pill{
+    flex-shrink:0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 7px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--lane-light);
+    color: var(--mute);
+    background: var(--lane);
+    white-space:nowrap;
+    cursor:pointer;
+    transition: all 0.2s;
+  }
+  .phase-pill.active{
+    background: var(--track-red);
+    border-color: var(--track-red);
+    color: #FFFFFF;
+    font-weight:600;
+  }
+  .phase-pill.done{
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+
+  /* ===== Main content ===== */
+  main{ padding: 20px; max-width: 720px; margin: 0 auto; }
+
+  .card{
+    background: var(--lane);
+    border: 1px solid var(--lane-light);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(20,58,82,0.05);
+  }
+  .card-title{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.005em;
+    margin-bottom: 4px;
+    display:flex; align-items:center; gap:10px;
+    color: var(--ink);
+  }
+  .card-sub{
+    font-size: 13px;
+    color: var(--mute);
+    margin-bottom: 16px;
+  }
+  .lane-num{
+    font-family: var(--font-mono);
+    background: var(--track-red);
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight:700;
+    width: 26px; height:26px;
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+
+  /* Today schedule */
+  .schedule-row{
+    display:flex; gap:14px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--lane-light);
+    align-items:flex-start;
+  }
+  .schedule-row:last-child{ border-bottom:none; }
+  .schedule-time{
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--track-red);
+    flex-shrink:0;
+    width: 46px;
+    padding-top: 1px;
+    font-weight: 600;
+  }
+  .schedule-text{ font-size: 14.5px; color: var(--ink); }
+  .schedule-text .tag{
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--mute);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display:block;
+    margin-top: 2px;
+  }
+
+  /* checklist */
+  .check-item{
+    display:flex; align-items:center; gap:12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--lane-light);
+    cursor:pointer;
+    user-select:none;
+  }
+  .check-item:last-child{ border-bottom:none; }
+  .check-box{
+    width: 22px; height:22px;
+    border: 2px solid var(--mute);
+    border-radius: 6px;
+    flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    transition: all 0.15s;
+  }
+  .check-box.checked{
+    background: var(--track-red);
+    border-color: var(--track-red);
+  }
+  .check-box.checked::after{
+    content:'✓';
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight:700;
+  }
+  .check-label{ font-size: 14.5px; flex:1; color: var(--ink); }
+  .check-label.checked-text{
+    color: var(--mute);
+    text-decoration: line-through;
+  }
+  .check-freq{
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--mute);
+    text-transform:uppercase;
+  }
+
+  /* phase content blocks */
+  .phase-section{ display:none; }
+  .phase-section.active{ display:block; }
+
+  .phase-dates{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--track-red);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .phase-title{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .phase-goal{
+    font-size: 14.5px;
+    color: var(--paper);
+    margin-bottom: 18px;
+    padding-left: 14px;
+    border-left: 3px solid var(--track-red);
+  }
+
+  .focus-grid{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .focus-item{
+    background: var(--lane-light);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap: 10px;
+  }
+  .focus-item .fi-text{ font-size: 14px; color: var(--ink); }
+  .focus-item .fi-badge{
+    font-family: var(--font-mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    text-transform:uppercase;
+    flex-shrink:0;
+  }
+  .badge-new{ background: var(--track-red); color: #FFFFFF; }
+  .badge-hold{ background: rgba(242,184,75,0.18); color: #B9821E; border:1px solid var(--gold); }
+  .badge-rest{ background: transparent; color:var(--mute); border:1px solid var(--mute); }
+
+  .not-yet{
+    font-size: 13px;
+    color: var(--mute);
+    font-style: italic;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--lane-light);
+  }
+
+  footer{
+    text-align:center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--mute);
+    padding: 30px 20px 10px;
+  }
+
+  ::selection{ background: var(--track-red); color: #FFFFFF; }
+
+  /* ===== Week nav ===== */
+  .week-nav{
+    display:flex; gap:10px; padding: 8px 20px 10px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .week-nav::-webkit-scrollbar{ display:none; }
+  .week-pill{
+    flex-shrink:0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 10px 14px;
+    min-height: 40px;
+    min-width: 52px;
+    box-sizing: border-box;
+    border-radius: 14px;
+    border: 1px solid var(--lane-light);
+    color: var(--paper);
+    background: var(--lane);
+    white-space:nowrap;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    box-shadow: 0 1px 4px rgba(20,58,82,0.04);
+  }
+  .week-pill.active{
+    background: var(--track-red);
+    border-color: var(--track-red);
+    color: #FFFFFF;
+    font-weight:700;
+  }
+  .week-pill.vacation{
+    border-color: var(--gold);
+  }
+
+  .week-pill .wp-label{
+    pointer-events: none;
+    font-size: 12px;
+  }
+  .week-pill .wp-range{
+    pointer-events: none;
+    font-size: 8px;
+    opacity: 0.8;
+    margin-top: 2px;
+  }
+
+  /* ===== EMOM block ===== */
+  .emom-banner{
+    display:flex; align-items:center; justify-content:space-between;
+    background: var(--lane-light);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 14px;
+  }
+  .emom-banner .em-label{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #B9821E;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .emom-banner .em-when{
+    font-size: 12.5px;
+    color: var(--mute);
+  }
+  .exercise-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--lane-light);
+  }
+  .exercise-row:last-child{ border-bottom:none; }
+  .ex-name{ font-size: 14.5px; color: var(--ink); }
+  .ex-name .ex-sub{
+    display:block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--mute);
+    margin-top: 2px;
+    text-transform:none;
+  }
+  .ex-target{
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--track-red);
+    font-weight: 700;
+    text-align: right;
+    flex-shrink:0;
+    padding-left: 12px;
+  }
+  .ex-target .ex-total{
+    display:block;
+    font-size: 9px;
+    color: var(--mute);
+    font-weight:400;
+    text-transform:uppercase;
+  }
+
+  .section-divider{
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 18px 0 6px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--lane-light);
+  }
+  .section-divider:first-child{ margin-top:0; padding-top:0; border-top:none; }
+
+  /* ===== Split day banner ===== */
+  .split-banner{
+    display:flex; align-items:center; gap: 12px;
+    background: linear-gradient(90deg, rgba(45,125,210,0.08), transparent);
+    border-left: 3px solid var(--track-red);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .split-day-tag{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13px;
+    background: var(--track-red);
+    color: #FFFFFF;
+    padding: 4px 9px;
+    border-radius: 6px;
+    flex-shrink:0;
+  }
+  .split-day-text{ font-size: 14.5px; color: var(--ink); }
+  .split-day-text .sd-sets{
+    display:block;
+    font-family: var(--font-mono);
+    color: #B9821E;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  .extra-habit{
+    display:flex; align-items:flex-start; gap:10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--lane-light);
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+  .extra-habit:last-child{ border-bottom:none; }
+  .extra-habit .eh-when{
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--mute);
+    text-transform:uppercase;
+    flex-shrink:0;
+    width: 60px;
+    padding-top:2px;
+  }
+
+  /* ===== Jump-to-today button ===== */
+  .jump-today{
+    display:none;
+    margin: 0 20px 14px;
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    width: calc(100% - 40px);
+  }
+  .jump-today.visible{ display:block; }
+
+  .viewing-banner{
+    margin: 0 20px 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--track-red);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ===== Timeline ===== */
+  .timeline{
+    position: relative;
+    padding-left: 22px;
+  }
+  .timeline::before{
+    content:'';
+    position:absolute; left:5px; top:6px; bottom:6px;
+    width:2px;
+    background: var(--lane-light);
+  }
+  .timeline-step{
+    position:relative;
+    padding-bottom: 18px;
+  }
+  .timeline-step:last-child{ padding-bottom:0; }
+  .timeline-step::before{
+    content:'';
+    position:absolute; left:-22px; top:3px;
+    width:10px; height:10px;
+    border-radius:50%;
+    background: #FFFFFF;
+    border: 2px solid var(--track-red);
+  }
+  .ts-time{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: #B9821E;
+    margin-bottom: 2px;
+  }
+  .ts-text{ font-size: 14px; color: var(--ink); }
+  .ts-text .ts-dur{
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--mute);
+    margin-left: 6px;
+  }
+
+  /* ===== Exercise checkbox row ===== */
+  .exercise-row.checkable{
+    cursor: pointer;
+    user-select: none;
+  }
+  .ex-checkbox{
+    width: 22px; height: 22px;
+    border: 2px solid var(--mute);
+    border-radius: 6px;
+    flex-shrink: 0;
+    display:flex; align-items:center; justify-content:center;
+    margin-right: 12px;
+    transition: all 0.15s;
+  }
+  .ex-checkbox.checked{
+    background: var(--track-red);
+    border-color: var(--track-red);
+  }
+  .ex-checkbox.checked::after{
+    content:'✓';
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .exercise-row.checkable .ex-name.checked-text{
+    color: var(--mute);
+    text-decoration: line-through;
+  }
+  .exercise-row-inner{
+    display:flex; align-items:center; flex:1;
+  }
+
+  .day-progress{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #B9821E;
+    text-align: right;
+    margin-bottom: 10px;
+  }
+
+  /* ===== Week diff tags ===== */
+  .diff-new{ color: var(--track-red); font-family: var(--font-mono); font-size: 9px; text-transform:uppercase; margin-left:6px; }
+  .diff-up{ color: #B9821E; font-family: var(--font-mono); font-size: 9px; text-transform:uppercase; margin-left:6px; }
+
+  /* ===== Week theme card ===== */
+  .week-theme-card{
+    background: linear-gradient(135deg, #EAF5FA, #FFFFFF);
+    border: 1px solid var(--track-red-dim);
+  }
+  .week-range{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #B9821E;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .week-theme-title{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 26px;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .week-theme-desc{
+    font-size: 14px;
+    color: var(--paper);
+    line-height: 1.5;
+  }
+
+  /* ===== View tabs ===== */
+  .view-tabs{
+    display:flex;
+    border-bottom: 1px solid var(--lane-light);
+    padding: 0 20px;
+    background: var(--lane);
+  }
+  .view-tab{
+    flex:1;
+    background:none;
+    border:none;
+    color: var(--mute);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 14px 8px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  .view-tab.active{
+    color: var(--track-red);
+    border-bottom-color: var(--track-red);
+    font-weight: 700;
+  }
+
+  /* ===== Training table ===== */
+  .train-day-row{
+    display:flex; align-items:center; gap:14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--lane-light);
+  }
+  .train-day-row:last-child{ border-bottom:none; }
+  .train-day-tag{
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 14px;
+    background: var(--track-red);
+    color: #FFFFFF;
+    width: 38px; height:38px;
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .train-day-info .td-name{ font-size: 15px; font-weight:600; color: var(--ink); }
+  .train-day-info .td-group{
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--mute);
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .train-day-sets{
+    margin-left: auto;
+    font-family: var(--font-mono);
+    color: #B9821E;
+    font-size: 15px;
+    font-weight: 700;
+    text-align:right;
+  }
+
+  /* ===== Program list (kumulativ) ===== */
+  .program-item{
+    display:flex; align-items:flex-start; gap:12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--lane-light);
+  }
+  .program-item:last-child{ border-bottom:none; }
+  .program-item .pi-icon{
+    font-size: 14px;
+    flex-shrink:0;
+    width: 20px;
+    text-align:center;
+    padding-top:1px;
+  }
+  .program-item .pi-text{ font-size: 14px; flex:1; color: var(--ink); }
+  .program-item .pi-text .pi-note{
+    display:block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--mute);
+    margin-top: 2px;
+    text-transform: none;
+  }
+  .program-item.is-new .pi-text{ color: var(--ink); font-weight:600; }
+  .program-item.is-base .pi-icon{ color: var(--mute); }
+  .program-item.is-new .pi-icon{ color: var(--track-red); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; }
   }
 </style>
-</head>
 <body>
 
-<div class="header">
-  <div>
-    <h1>📘 Elektrotechnik &amp; Leistungselektronik</h1>
-    <div class="sub">Zusammenfassung HSLU FS26 · Luca Portmann · Formelsammlung &amp; Prüfungsvorbereitung</div>
-  </div>
-  <nav class="nav">
-    <a href="#grundlagen">Grundlagen</a>
-    <a href="#serie">Serieschaltung</a>
-    <a href="#parallel">Parallelschaltung</a>
-    <a href="#netzwerk">Netzwerk</a>
-    <a href="#leistung">Leistung</a>
-    <a href="#kondensator">Kondensator</a>
-    <a href="#spule">Spule</a>
-    <a href="#rc">RC-Schaltung</a>
-    <a href="#rl">RL-Schaltung</a>
-    <a href="#wechsel">Wechselstrom</a>
-    <a href="#drehstrom">Drehstrom</a>
-    <a href="#mep">Probe MEP</a>
-  </nav>
+<div class="track-header">
+  <div class="lane-lines"></div>
+  <div class="eyebrow">Lane 1 · Wiederaufbau</div>
+  <h1>Auf die Bahn, fertig, los</h1>
+  <div class="today-date" id="todayDate">—</div>
 </div>
 
-<div class="container">
-
-<!-- ════════════════════════════════════════════════
-     BLOCK 1 – GRUNDLAGEN
-     ════════════════════════════════════════════════ -->
-<div id="grundlagen" class="section">
-  <div class="section-title">🔌 Block 1 – Grundgrössen der Elektrotechnik</div>
-
-  <div class="grid-3">
-    <div class="card">
-      <h3 class="blue">Ladung Q</h3>
-      <div class="formula">
-        <div class="label">Definition</div>
-        <big>Q</big> = I · t &nbsp;[As = C]
-      </div>
-      <ul>
-        <li>Einheit: Coulomb (C = As)</li>
-        <li>Elementarladung: e₀ = 1.602 · 10⁻¹⁹ C</li>
-        <li>Elektron: –e₀ &nbsp;|&nbsp; Proton: +e₀</li>
-        <li>Gleichnamige Ladungen stossen sich ab</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3 class="blue">Spannung U</h3>
-      <div class="formula">
-        <big>U</big> = W / Q &nbsp;[V = J/C]
-      </div>
-      <ul>
-        <li>Energie pro Ladungseinheit</li>
-        <li>Gerichtete Grösse (Vorzeichen wichtig!)</li>
-        <li>Voltmeter: parallel schalten</li>
-        <li>U<sub>AB</sub> = –U<sub>BA</sub></li>
-        <li>Gefährlich ab ca. 50 V</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3 class="blue">Strom I &amp; Stromdichte J</h3>
-      <div class="formula">
-        <big>I</big> = Q / t = ΔQ/Δt &nbsp;[A]
-      </div>
-      <div class="formula">
-        <big>J</big> = I / A &nbsp;[A/mm²]
-      </div>
-      <ul>
-        <li>Amperemeter: in Reihe schalten</li>
-        <li>Technische Richtung: positive Ladungen</li>
-        <li>Typisch Hausinstallation: J = 2…10 A/mm²</li>
-        <li>Runder Draht: A = (d/2)² · π</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3 class="blue">Ohmsches Gesetz &amp; Widerstand R</h3>
-      <div class="formula">
-        <big>R</big> = U / I &nbsp;[Ω] &nbsp;→&nbsp; U = R·I &nbsp;→&nbsp; I = U/R
-      </div>
-      <div class="formula">
-        <div class="label">Spezifischer Widerstand</div>
-        <big>R</big> = ρ·l / A &nbsp;|&nbsp; ρ = R·A/l &nbsp;[Ω·mm²/m]
-      </div>
-      <ul>
-        <li>Leitwert G = 1/R [S = Siemens]</li>
-        <li>Kupfer: ρ = 0.0178 Ω·mm²/m &nbsp;|&nbsp; γ = 56 S·m/mm²</li>
-        <li>Aluminium: ρ = 0.028 Ω·mm²/m</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3 class="blue">Temperaturabhängigkeit</h3>
-      <div class="formula">
-        <big>R</big>(ϑ) = R₂₀ · [1 + α · (ϑ – 20°C)]
-      </div>
-      <div class="formula">
-        R(ϑ) = R₂₀ · (1 + α · ΔT)
-      </div>
-      <ul>
-        <li>α (Kupfer, 20°C) = 0.0039 [1/K]</li>
-        <li>Metalle: R steigt mit Temperatur (α &gt; 0)</li>
-        <li>Konstantan: α ≈ 0 (temperaturunabhängig)</li>
-        <li>NTC/Halbleiter: α &lt; 0</li>
-      </ul>
-    </div>
-
-    <div class="card">
-      <h3 class="blue">Lineare Spannungsquelle</h3>
-      <div class="formula">
-        <big>U</big> = U<sub>q</sub> – I · R<sub>i</sub>
-      </div>
-      <div class="formula">
-        R<sub>i</sub> = –ΔU/ΔI = U<sub>q</sub>/I<sub>K</sub>
-      </div>
-      <ul>
-        <li>Leerlauf (R<sub>a</sub>=∞): U = U<sub>q</sub>, I = 0</li>
-        <li>Kurzschluss (R<sub>a</sub>=0): I<sub>K</sub> = U<sub>q</sub>/R<sub>i</sub>, U = 0</li>
-        <li>Spannungsquelle aus: → Kurzschluss</li>
-        <li>Stromquelle aus: → Unterbruch (Leerlauf)</li>
-      </ul>
-    </div>
-  </div>
+<div class="view-tabs">
+  <button class="view-tab active" id="tabWeek">Wochenprogramm</button>
+  <button class="view-tab" id="tabTraining">Trainingsplan</button>
 </div>
 
-<!-- ════════════════════════════════════════════════
-     KIRCHHOFF
-     ════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title green">⚡ Kirchhoffsche Gesetze</div>
-  <div class="grid-2">
-    <div class="card">
-      <h3>1. Kirchhoff – Knotenregel (KCL)</h3>
-      <div class="formula">
-        ΣI<sub>zu</sub> = ΣI<sub>ab</sub> &nbsp;→&nbsp; ΣI<sub>k</sub> = 0
-      </div>
-      <div class="rule green">
-        <strong>Merke:</strong> Alle Ströme die in einen Knoten fliessen = Alle Ströme die rausfliessen.<br>
-        Zählpfeil zum Knoten → addieren. Weg vom Knoten → subtrahieren.
-      </div>
-      <div class="formula">
-        <div class="label">Beispiel: Knoten A mit I1=300A, I2=−420A, I3=60A, I4=80A</div>
-        I5 = I1 – I2 + I3 + I4 = 300+420+60+80 = <strong style="color:#1b8a5a">860 A</strong>
-      </div>
-    </div>
-    <div class="card">
-      <h3>2. Kirchhoff – Maschenregel (KVL)</h3>
-      <div class="formula">
-        ΣU<sub>k</sub> = 0 &nbsp;(im Umlauf)
-      </div>
-      <div class="rule green">
-        <strong>Merke:</strong> In einer Masche: Summe aller Spannungen = 0.<br>
-        Pfeil gleiche Richtung wie Umlaufsinn → addieren, sonst subtrahieren.<br>
-        Umlaufsinn kann beliebig gewählt werden!
-      </div>
-      <div class="formula">
-        <div class="label">Vorgehen</div>
-        1. Umlaufsinn festlegen &nbsp;→&nbsp; 2. Spannungen einsetzen &nbsp;→&nbsp; 3. Auflösen
-      </div>
-    </div>
-  </div>
-</div>
+<!-- ===== WOCHEN-ANSICHT ===== -->
+<div id="weekView">
 
-<!-- ════════════════════════════════════════════════
-     SERIESCHALTUNG
-     ════════════════════════════════════════════════ -->
-<div id="serie" class="section">
-  <div class="section-title">🔗 Block 1 – Serieschaltung (Reihenschaltung)</div>
+<div class="week-nav" id="weekNav"></div>
+<div class="viewing-banner" id="viewingBanner" style="display:none;"></div>
+<button class="jump-today" id="jumpToday">↩ Zurück zu heute</button>
 
-  <div class="compare-grid">
-    <div class="compare-card serie">
-      <div class="ctitle">SERIESCHALTUNG</div>
+<main>
 
-      <div class="rule">
-        <strong>Strom:</strong> Überall gleich<br>
-        I = I<sub>R1</sub> = I<sub>R2</sub> = … = I<sub>Rn</sub>
-      </div>
-      <div class="rule">
-        <strong>Spannung:</strong> Teilt sich auf<br>
-        U<sub>total</sub> = U<sub>R1</sub> + U<sub>R2</sub> + … + U<sub>Rn</sub>
-      </div>
-
-      <div class="formula">
-        <div class="label">Ersatzwiderstand</div>
-        <big>R<sub>ers</sub></big> = R<sub>1</sub> + R<sub>2</sub> + … + R<sub>n</sub>
-      </div>
-
-      <div class="formula">
-        <div class="label">Spannungsteiler</div>
-        <big>U<sub>2</sub></big> = U<sub>q</sub> · R<sub>2</sub> / (R<sub>1</sub> + R<sub>2</sub>)
-      </div>
-
-      <div class="rule">
-        <strong>Kapazitäten in Serie:</strong><br>
-        1/C<sub>ers</sub> = 1/C<sub>1</sub> + 1/C<sub>2</sub> + … (wie Widerstand parallel!)
-      </div>
-      <div class="rule">
-        <strong>Induktivitäten in Serie:</strong><br>
-        L<sub>ers</sub> = L<sub>1</sub> + L<sub>2</sub> + … (wie Widerstände)
-      </div>
-      <div class="rule">
-        <strong>Impedanzen in Serie:</strong><br>
-        Z<sub>e</sub> = Z<sub>1</sub> + Z<sub>2</sub> + … (Vektoraddition!)
-      </div>
-    </div>
-
-    <div class="compare-card parallel">
-      <div class="ctitle">PARALLELSCHALTUNG</div>
-
-      <div class="rule green">
-        <strong>Spannung:</strong> Überall gleich<br>
-        U = U<sub>R1</sub> = U<sub>R2</sub> = … = U<sub>Rn</sub>
-      </div>
-      <div class="rule green">
-        <strong>Strom:</strong> Teilt sich auf<br>
-        I<sub>total</sub> = I<sub>R1</sub> + I<sub>R2</sub> + … + I<sub>Rn</sub>
-      </div>
-
-      <div class="formula">
-        <div class="label">Ersatzwiderstand (allgemein)</div>
-        1/<big>R<sub>ers</sub></big> = 1/R<sub>1</sub> + 1/R<sub>2</sub> + … + 1/R<sub>n</sub>
-      </div>
-      <div class="formula">
-        <div class="label">Zwei Widerstände parallel</div>
-        <big>R<sub>ers</sub></big> = R<sub>1</sub>·R<sub>2</sub> / (R<sub>1</sub>+R<sub>2</sub>)
-      </div>
-      <div class="formula">
-        <div class="label">Stromteiler</div>
-        <big>I<sub>2</sub></big> = I · R<sub>1</sub> / (R<sub>1</sub> + R<sub>2</sub>)
-      </div>
-
-      <div class="rule green">
-        <strong>Kapazitäten parallel:</strong><br>
-        C<sub>ers</sub> = C<sub>1</sub> + C<sub>2</sub> + … (wie Widerstände in Serie!)
-      </div>
-      <div class="rule green">
-        <strong>Leitwert:</strong> G<sub>ers</sub> = G<sub>1</sub> + G<sub>2</sub> + …
-      </div>
-      <div class="rule green">
-        <strong>Impedanzen parallel:</strong><br>
-        1/Z<sub>e</sub> = 1/Z<sub>1</sub> + 1/Z<sub>2</sub> + …
-      </div>
-    </div>
+  <!-- WOCHEN-THEMA -->
+  <div class="card week-theme-card">
+    <div class="week-range" id="weekRange">—</div>
+    <div class="week-theme-title" id="weekThemeTitle">—</div>
+    <div class="week-theme-desc" id="weekThemeDesc">—</div>
   </div>
 
-  <div class="tip" style="margin-top:12px">
-    <strong>💡 Tricks:</strong> n gleiche Widerstände parallel → R<sub>ers</sub> = R/n &nbsp;|&nbsp;
-    R=0 parallel mit R → Kurzschluss (0Ω) &nbsp;|&nbsp;
-    R=∞ in Serie → Unterbruch &nbsp;|&nbsp;
-    Vorgehen: immer reine Serie- oder Parallelgruppen identifizieren und vereinfachen
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════
-     NETZWERKANALYSE
-     ════════════════════════════════════════════════ -->
-<div id="netzwerk" class="section">
-  <div class="section-title yellow">🔀 Block 2 – Netzwerkanalyse</div>
-  <div class="grid-2">
-    <div class="card">
-      <h3 class="yellow">Superposition</h3>
-      <div class="rule yellow">
-        <strong>Prinzip:</strong> Bei mehreren Quellen: jeden Beitrag einzeln berechnen und addieren.
-      </div>
-      <p><strong>Vorgehen:</strong></p>
-      <ol style="padding-left:18px; font-size:13px; line-height:2">
-        <li>Eine Quelle aktiv lassen, alle anderen abschalten</li>
-        <li>Spannungsquelle ausschalten → Kurzschluss (0V)</li>
-        <li>Stromquelle ausschalten → Unterbruch (0A)</li>
-        <li>Ströme/Spannungen berechnen</li>
-        <li>Wiederholen für jede Quelle</li>
-        <li>Alle Beiträge addieren (Vorzeichen beachten!)</li>
-      </ol>
-    </div>
-    <div class="card">
-      <h3 class="yellow">Schaltung umzeichnen / Ersatzwiderstand</h3>
-      <div class="rule yellow"><strong>Vorgehen:</strong> Alle Bauteile und Knoten identifizieren. Liste der Verbindungen erstellen. Reine Parallel-/Serieschaltungen schrittweise vereinfachen.</div>
-      <div class="formula">
-        <div class="label">Brückenschaltung → weder Serie noch Parallel</div>
-        → Knotenanalyse oder Superposition verwenden
-      </div>
-      <div class="rule yellow"><strong>Tipp:</strong> R = 0Ω ist Kurzschluss (überbrückt alles) &nbsp;|&nbsp; R = ∞Ω ist Unterbruch (kein Strom)</div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════
-     LEISTUNG & ENERGIE
-     ════════════════════════════════════════════════ -->
-<div id="leistung" class="section">
-  <div class="section-title red">⚡ Block 2 – Leistung, Energie &amp; Wirkungsgrad</div>
-  <div class="grid-3">
-    <div class="card">
-      <h3 class="red">Elektrische Leistung P</h3>
-      <div class="formula">
-        <big>P</big> = U · I = U²/R = I²·R &nbsp;[W]
-      </div>
-      <div class="formula">
-        <big>W</big> = P · t = U · I · t &nbsp;[Ws = J]
-      </div>
-      <ul>
-        <li>1 kWh = 3'600'000 J = 3.6 MJ</li>
-        <li>Kosten = W [kWh] · k [Rp/kWh]</li>
-        <li>P positiv → Bauelement nimmt auf</li>
-        <li>P negativ → Bauelement gibt ab</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3 class="red">Wirkungsgrad η</h3>
-      <div class="formula">
-        <big>η</big> = P<sub>ab</sub> / P<sub>zu</sub> = P<sub>2</sub>/P<sub>1</sub> ≤ 1
-      </div>
-      <div class="formula">
-        <div class="label">Motor: elektrisch → mechanisch</div>
-        P<sub>mech</sub> = U·I·η = M·ω
-      </div>
-      <div class="formula">
-        <div class="label">Mechanische Leistung</div>
-        P = M · ω &nbsp;|&nbsp; ω = 2π·n/60
-      </div>
-      <ul>
-        <li>n [min⁻¹] → ω = 2π·n/60 [rad/s]</li>
-        <li>Verlust: P<sub>loss</sub> = P<sub>zu</sub>·(1–η)</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3 class="red">Erwärmung</h3>
-      <div class="formula">
-        W<sub>el</sub> = P · t = m·c·ϑ / η
-      </div>
-      <table>
-        <tr><th>Stoff</th><th>c [J/(kg·K)]</th></tr>
-        <tr><td>Wasser</td><td>4182</td></tr>
-        <tr><td>Luft</td><td>992</td></tr>
-        <tr><td>Aluminium</td><td>920</td></tr>
-        <tr><td>Stahl</td><td>460</td></tr>
-        <tr><td>Kupfer</td><td>390</td></tr>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════
-     KONDENSATOR
-     ════════════════════════════════════════════════ -->
-<div id="kondensator" class="section">
-  <div class="section-title purple">🔋 Block 3 – Kondensator &amp; Kapazität</div>
-  <div class="grid-2">
-    <div class="card">
-      <h3 class="purple">Definition &amp; Grundformeln</h3>
-      <div class="formula">
-        <div class="label">Kapazität (Grundformel)</div>
-        <big>C</big> = Q / U &nbsp;[F = As/V]
-      </div>
-      <div class="formula">
-        <div class="label">Plattenkondensator</div>
-        C = ε · A / d &nbsp;|&nbsp; ε = ε<sub>r</sub> · ε<sub>0</sub>
-      </div>
-      <div class="formula">
-        ε<sub>0</sub> = 8.854 · 10⁻¹² As/(Vm)
-      </div>
-      <div class="formula">
-        <div class="label">Gespeicherte Energie</div>
-        <big>W</big> = C · U² / 2 = Q²/(2C) &nbsp;[J = Ws]
-      </div>
-      <ul>
-        <li>ε<sub>r</sub> Luft = 1 &nbsp;|&nbsp; Papier = 4–6 &nbsp;|&nbsp; Glas = 5–10</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3 class="purple">Strom-Spannungs-Beziehung</h3>
-      <div class="formula">
-        <big>i</big>(t) = C · Δu/Δt
-      </div>
-      <div class="rule purple">
-        <strong>Merke:</strong> Die Spannung am Kondensator kann NICHT springen!<br>
-        u<sub>C</sub>(0⁺) = u<sub>C</sub>(0⁻)
-      </div>
-      <div class="rule purple">
-        <strong>Am Anfang</strong> (Einschalten): verhält sich wie <strong>Kurzschluss</strong><br>
-        → Strom kann fliessen ohne Spannungsabfall
-      </div>
-      <div class="rule purple">
-        <strong>Im stationären Zustand</strong>: verhält sich wie <strong>Unterbruch</strong><br>
-        → Kein Strom, egal welche Spannung
-      </div>
-    </div>
-    <div class="card">
-      <h3 class="purple">Schaltung von Kondensatoren</h3>
-      <div class="formula">
-        <div class="label">Parallel (wie Widerstände in Serie!)</div>
-        <big>C<sub>ers</sub></big> = C<sub>1</sub> + C<sub>2</sub> + C<sub>3</sub>
-      </div>
-      <div class="formula">
-        <div class="label">Serie (wie Widerstände parallel!)</div>
-        1/<big>C<sub>ers</sub></big> = 1/C<sub>1</sub> + 1/C<sub>2</sub> + 1/C<sub>3</sub>
-      </div>
-      <div class="formula">
-        <div class="label">Zwei in Serie</div>
-        C<sub>ers</sub> = C<sub>1</sub>·C<sub>2</sub> / (C<sub>1</sub>+C<sub>2</sub>)
-      </div>
-    </div>
-    <div class="card">
-      <h3 class="purple">Blindwiderstand (AC)</h3>
-      <div class="formula">
-        <div class="label">Kapazitiver Blindwiderstand</div>
-        <big>X<sub>C</sub></big> = 1/(ω·C) = 1/(2π·f·C) &nbsp;[Ω] ∠–90°
-      </div>
-      <div class="rule purple">
-        <strong>Strom eilt Spannung 90° VORAUS!</strong><br>
-        X<sub>C</sub> nimmt mit steigender Frequenz ab.<br>
-        Bei DC (f=0): X<sub>C</sub> = ∞ → Unterbruch
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════
-     SPULE / INDUKTIVITÄT
-     ════════════════════════════════════════════════ -->
-<div id="spule" class="section">
-  <div class="section-title green">🌀 Block 4 – Spule &amp; Induktivität</div>
-  <div class="grid-2">
-    <div class="card">
-      <h3>Definition &amp; Grundformeln</h3>
-      <div class="formula">
-        <div class="label">Induktivität (Grundformel)</div>
-        <big>L</big> = N·Φ / I &nbsp;[H = Vs/A]
-      </div>
-      <div class="formula">
-        <div class="label">Lange Spule (Näherung)</div>
-        L = N² · μ · A / l
-      </div>
-      <div class="formula">
-        <div class="label">Gespeicherte Energie</div>
-        <big>W</big> = L · I² / 2 &nbsp;[J = Ws]
-      </div>
-      <ul>
-        <li>μ₀ = 1.257 · 10⁻⁶ Vs/A (Vakuum)</li>
-        <li>μ = μ<sub>r</sub> · μ₀ &nbsp;|&nbsp; μ<sub>r</sub> Eisen ≈ 500–7000</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h3>Strom-Spannungs-Beziehung</h3>
-      <div class="formula">
-        <big>u</big>(t) = L · Δi/Δt
-      </div>
-      <div class="rule green">
-        <strong>Merke:</strong> Der Strom durch die Spule kann NICHT springen!<br>
-        i<sub>L</sub>(0⁺) = i<sub>L</sub>(0⁻)
-      </div>
-      <div class="rule green">
-        <strong>Am Anfang</strong> (Einschalten): verhält sich wie <strong>Unterbruch</strong><br>
-        → Strom kann nicht sofort fliessen
-      </div>
-      <div class="rule green">
-        <strong>Im stationären Zustand</strong>: verhält sich wie <strong>Kurzschluss</strong><br>
-        → Keine Spannung, egal welcher konstante Strom
-      </div>
-      <div class="formula">
-        <div class="label">Induktiver Blindwiderstand (AC)</div>
-        <big>X<sub>L</sub></big> = ω·L = 2π·f·L &nbsp;[Ω] ∠+90°
-      </div>
-      <div class="rule green">
-        <strong>Spannung eilt Strom 90° VORAUS!</strong><br>
-        X<sub>L</sub> steigt linear mit der Frequenz.<br>
-        Bei DC (f=0): X<sub>L</sub> = 0 → Kurzschluss
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════
-     RC-SCHALTUNG – LADEN UND ENTLADEN
-     ════════════════════════════════════════════════ -->
-<div id="rc" class="section">
-  <div class="section-title purple">⏱ Block 3 – RC-Schaltung: Laden &amp; Entladen</div>
-
-  <div class="tip">
-    <strong>4-Schritte-Methode (immer gleich!):</strong>
-    1. Zustandsvariable: u<sub>C</sub>(t) – sie kann nicht springen &nbsp;|&nbsp;
-    2. Startwert: u<sub>C</sub>(0⁺) = u<sub>C</sub>(0⁻) &nbsp;|&nbsp;
-    3. Endwert: u<sub>C</sub>(∞) &nbsp;|&nbsp;
-    4. Formel einsetzen
-  </div>
-
-  <div class="grid-2">
-    <div class="card">
-      <h3 class="purple">Zeitkonstante τ</h3>
-      <div class="formula">
-        <big>τ</big> = R · C &nbsp;[s]
-      </div>
-      <div class="rule purple">
-        R = Widerstand der Schaltung aus Sicht des Kondensators<br>
-        (Spannungsquellen → Kurzschluss; Stromquellen → Unterbruch)
-      </div>
-      <table style="margin-top:8px">
-        <tr><th>Zeit</th><th>Ladekurve (1–e⁻ᵗ/τ)</th><th>Entladekurve (e⁻ᵗ/τ)</th></tr>
-        <tr><td>1τ</td><td>63%</td><td>37%</td></tr>
-        <tr><td>2τ</td><td>86%</td><td>14%</td></tr>
-        <tr><td>3τ</td><td>95%</td><td>5%</td></tr>
-        <tr><td>4τ</td><td>98.2%</td><td>1.8%</td></tr>
-        <tr><td><strong>5τ</strong></td><td><strong>99.4%</strong> ≈ fertig</td><td><strong>0.6%</strong> ≈ leer</td></tr>
-      </table>
-    </div>
-
-    <div class="card">
-      <h3 class="purple">Allgemeine Formel (Ausgleichsvorgang)</h3>
-      <div class="formula">
-        <div class="label">Universalformel – gilt für ALLE Grössen</div>
-        y(t) = y(∞) + [y(0⁺) – y(∞)] · e<sup>–t/τ</sup>
-      </div>
-      <div class="formula">
-        <div class="label">Beispiel: Laden von u<sub>C</sub> auf U von 0</div>
-        u<sub>C</sub>(t) = U · (1 – e<sup>–t/τ</sup>)
-      </div>
-      <div class="formula">
-        <div class="label">Ladestrom beim Laden</div>
-        i<sub>C</sub>(t) = (U/R) · e<sup>–t/τ</sup>
-      </div>
-      <div class="formula">
-        <div class="label">Entladen über R (u<sub>C</sub>(0)=U₀)</div>
-        u<sub>C</sub>(t) = U₀ · e<sup>–t/τ</sup> &nbsp;|&nbsp; i<sub>C</sub>(t) = –(U₀/R)·e<sup>–t/τ</sup>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="purple">RC mit Last (R1, R2, C)</h3>
-      <div class="formula">
-        τ = R<sub>1</sub>‖R<sub>2</sub> · C = (R<sub>1</sub>·R<sub>2</sub>)/(R<sub>1</sub>+R<sub>2</sub>) · C
-      </div>
-      <div class="formula">
-        u<sub>C</sub>(∞) = U₀ · R<sub>2</sub>/(R<sub>1</sub>+R<sub>2</sub>)
-      </div>
-      <div class="formula">
-        u<sub>C</sub>(t) = u<sub>C</sub>(∞) · (1 – e<sup>–t/τ</sup>)
-      </div>
-      <div class="rule purple">
-        <strong>Merke:</strong> τ wird mit dem Thevenin-Widerstand aus Sicht von C berechnet: Quellen kurzschliessen, Widerstand messen.
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="purple">Probe MEP – Aufgabe 9 (Muster)</h3>
-      <div class="rule purple">
-        <strong>Schaltung:</strong> U<sub>q</sub>=60V, C₁=100μF, R₁=10kΩ, R₂=20kΩ, R₃=40kΩ<br>
-        S1 schliesst bei t=0, C vorher leer.
-      </div>
-      <div class="formula">
-        <div class="label">a) Zeitkonstante (S1 geschlossen)</div>
-        τ = R<sub>ers</sub> · C &nbsp;|&nbsp; R<sub>ers</sub> = R₁‖(R₂+R₃)
-      </div>
-      <div class="formula">
-        <div class="label">b) u<sub>C</sub>(0⁺) = u<sub>C</sub>(0⁻) = 0V</div>
-        (Kondensator war leer → springt nicht)
-      </div>
-      <div class="formula">
-        <div class="label">c) u<sub>C</sub>(∞) = U<sub>q</sub> · R<sub>parallel</sub>/(R₁+R<sub>parallel</sub>)</div>
-        Spannungsteiler im stationären Zustand
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════
-     RL-SCHALTUNG
-     ════════════════════════════════════════════════ -->
-<div id="rl" class="section">
-  <div class="section-title green">⏱ Block 4 – RL-Schaltung: Laden &amp; Entladen</div>
-
-  <div class="tip">
-    <strong>4-Schritte-Methode (identisch wie RC!):</strong>
-    1. Zustandsvariable: i<sub>L</sub>(t) – sie kann nicht springen &nbsp;|&nbsp;
-    2. Startwert: i<sub>L</sub>(0⁺) = i<sub>L</sub>(0⁻) &nbsp;|&nbsp;
-    3. Endwert: i<sub>L</sub>(∞) &nbsp;|&nbsp;
-    4. Formel einsetzen
-  </div>
-
-  <div class="grid-2">
-    <div class="card">
-      <h3>Zeitkonstante &amp; Formeln</h3>
-      <div class="formula">
-        <big>τ</big> = L / R &nbsp;[s]
-      </div>
-      <div class="formula">
-        <div class="label">Allgemeine Formel</div>
-        i<sub>L</sub>(t) = i<sub>L</sub>(∞) + [i<sub>L</sub>(0⁺) – i<sub>L</sub>(∞)] · e<sup>–t/τ</sup>
-      </div>
-      <div class="formula">
-        <div class="label">Laden (L vorher leer, Quelle U)</div>
-        i<sub>L</sub>(t) = (U/R) · (1 – e<sup>–t/τ</sup>)
-      </div>
-      <div class="formula">
-        u<sub>L</sub>(t) = U · e<sup>–t/τ</sup>
-      </div>
-      <div class="formula">
-        <div class="label">Entladen (I₀ = Anfangsstrom)</div>
-        i<sub>L</sub>(t) = I₀ · e<sup>–t/τ</sup>
-      </div>
-      <div class="formula">
-        u<sub>L</sub>(t) = –I₀·R · e<sup>–t/τ</sup>
-      </div>
-    </div>
-    <div class="card">
-      <h3>Vergleich RC vs RL</h3>
-      <table>
-        <tr><th>Grösse</th><th>RC-Schaltung</th><th>RL-Schaltung</th></tr>
-        <tr><td>Zustandsgrösse</td><td>u<sub>C</sub>(t)</td><td>i<sub>L</sub>(t)</td></tr>
-        <tr><td>Kann nicht springen</td><td>Spannung</td><td>Strom</td></tr>
-        <tr><td>Zeitkonstante</td><td>τ = R·C</td><td>τ = L/R</td></tr>
-        <tr><td>Einschalten: wie</td><td>Kurzschluss</td><td>Unterbruch</td></tr>
-        <tr><td>Stationär: wie</td><td>Unterbruch</td><td>Kurzschluss</td></tr>
-        <tr><td>99% nach</td><td>5τ</td><td>5τ</td></tr>
-      </table>
-      <div class="rule green" style="margin-top:10px">
-        <strong>RL mit Last:</strong><br>
-        τ = L / (R₁‖R₂) &nbsp;|&nbsp; i<sub>L</sub>(∞) = U₀/R₁
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════
-     WECHSELSTROM
-     ════════════════════════════════════════════════ -->
-<div id="wechsel" class="section">
-  <div class="section-title">🌊 Blöcke 5–7 – Wechselstrom &amp; Impedanz</div>
-
-  <div class="grid-2">
-    <div class="card">
-      <h3 class="blue">Sinusgrössen &amp; Effektivwert</h3>
-      <div class="formula">
-        u(t) = Û · sin(ω·t + φ<sub>u</sub>)
-      </div>
-      <div class="formula">
-        ω = 2π·f = 2π/T &nbsp;[rad/s]
-      </div>
-      <div class="formula">
-        <div class="label">Effektivwert (RMS)</div>
-        <big>U</big> = Û / √2 &nbsp;|&nbsp; <big>I</big> = Î / √2
-      </div>
-      <div class="rule">
-        <strong>Netz CH:</strong> f = 50 Hz, T = 20ms, U = 230V (Effektivwert), Û ≈ 325V
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="blue">Impedanz Z (Wechselstromwiderstand)</h3>
-      <div class="formula">
-        <big>Z</big> = U/I ∠φ<sub>Z</sub> &nbsp;[Ω]
-      </div>
-      <div class="formula">
-        φ<sub>Z</sub> = φ<sub>U</sub> – φ<sub>I</sub>
-      </div>
-      <table>
-        <tr><th>Element</th><th>Impedanz</th><th>Winkel</th><th>Strom vs Spannung</th></tr>
-        <tr><td>Widerstand R</td><td>Z = R</td><td>0°</td><td>gleichphasig</td></tr>
-        <tr><td>Kondensator C</td><td>Z<sub>C</sub> = 1/(ωC)</td><td>–90°</td><td>I eilt U um 90° VORAUS</td></tr>
-        <tr><td>Spule L</td><td>Z<sub>L</sub> = ωL</td><td>+90°</td><td>U eilt I um 90° VORAUS</td></tr>
-      </table>
-      <div class="rule" style="margin-top:8px">
-        <strong>Merkregel ELI the ICE man:</strong><br>
-        EL: Spannung (E) eilt Strom (I) bei Induktivität (L) voraus<br>
-        IC: Strom (I) eilt Spannung (E) bei Kapazität (C) voraus
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="blue">Reihenschaltung &amp; Parallelschaltung (AC)</h3>
-      <div class="formula">
-        <div class="label">Serie: Impedanzen addieren (Vektoren!)</div>
-        Z<sub>e</sub> = Z<sub>R</sub> + Z<sub>C</sub> + Z<sub>L</sub> = R + j(X<sub>L</sub>–X<sub>C</sub>)
-      </div>
-      <div class="formula">
-        |Z| = √(R² + (X<sub>L</sub>–X<sub>C</sub>)²)
-      </div>
-      <div class="formula">
-        φ = arctan((X<sub>L</sub>–X<sub>C</sub>)/R)
-      </div>
-      <div class="formula">
-        <div class="label">Parallel: Admittanzen addieren</div>
-        Y<sub>e</sub> = 1/Z<sub>e</sub> &nbsp;|&nbsp; Y = 1/Z
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="blue">Wechselstromleistung</h3>
-      <div class="formula">
-        <div class="label">Scheinleistung S [VA]</div>
-        <big>S</big> = U · I
-      </div>
-      <div class="formula">
-        <div class="label">Wirkleistung P [W]</div>
-        <big>P</big> = U · I · cos(φ) = S · cos(φ)
-      </div>
-      <div class="formula">
-        <div class="label">Blindleistung Q [var]</div>
-        <big>Q</big> = U · I · sin(φ) = S · sin(φ)
-      </div>
-      <div class="formula">
-        <div class="label">Leistungsdreieck</div>
-        S² = P² + Q² &nbsp;|&nbsp; cos(φ) = P/S
-      </div>
-      <table style="margin-top:8px">
-        <tr><th>Element</th><th>P</th><th>Q</th></tr>
-        <tr><td>Widerstand R</td><td>U·I = I²·R</td><td>0</td></tr>
-        <tr><td>Kondensator C</td><td>0</td><td>–I²·X<sub>C</sub> (negativ!)</td></tr>
-        <tr><td>Induktivität L</td><td>0</td><td>+I²·X<sub>L</sub> (positiv)</td></tr>
-      </table>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:14px">
-    <h3 class="blue">Phasenverschiebung &amp; Typen</h3>
-    <div class="grid-3" style="gap:10px;margin-top:8px">
-      <div class="rule">φ = 0° → rein ohmsch → P=S, Q=0</div>
-      <div class="rule">φ = +90° → rein induktiv → P=0, Q&gt;0</div>
-      <div class="rule">φ = –90° → rein kapazitiv → P=0, Q&lt;0</div>
-      <div class="rule">0°&lt;φ&lt;90° → ohmsch-induktiv</div>
-      <div class="rule">–90°&lt;φ&lt;0° → ohmsch-kapazitiv</div>
-      <div class="rule">Phasenverschiebung in Zeit: Δt = φ/(2π·f)</div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════
-     DREHSTROM
-     ════════════════════════════════════════════════ -->
-<div id="drehstrom" class="section">
-  <div class="section-title yellow">🔄 Block 8 – Drehstromsystem (Dreiphasensystem)</div>
-
-  <div class="grid-2">
-    <div class="card">
-      <h3 class="yellow">Grundprinzip</h3>
-      <div class="formula">
-        U<sub>N1</sub> = U<sub>S</sub>∠0° &nbsp;|&nbsp; U<sub>N2</sub> = U<sub>S</sub>∠–120° &nbsp;|&nbsp; U<sub>N3</sub> = U<sub>S</sub>∠+120°
-      </div>
-      <div class="rule yellow">
-        <strong>Symmetrie:</strong> U<sub>N1</sub> + U<sub>N2</sub> + U<sub>N3</sub> = 0<br>
-        → Im symmetrischen Betrieb: Neutralleiterstrom I<sub>N</sub> = 0
-      </div>
-      <div class="formula">
-        <div class="label">Leiterspannung (zwischen 2 Phasen)</div>
-        U<sub>Leiter</sub> = √3 · U<sub>Phase</sub> ∠–30°
-      </div>
-      <div class="rule yellow">
-        <strong>Schweizer Netz:</strong><br>
-        Phasenspannung: 230V (Phase zu Neutralleiter N)<br>
-        Leiterspannung: 400V (Phase zu Phase)<br>
-        400V / √3 = 230.9V ≈ 230V ✓
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="yellow">Stern- und Dreieckschaltung</h3>
-      <table>
-        <tr><th></th><th>Sternschaltung (Y)</th><th>Dreieckschaltung (Δ)</th></tr>
-        <tr><td>Spannung</td><td>U<sub>Strang</sub> = U<sub>Netz</sub>/√3</td><td>U<sub>Strang</sub> = U<sub>Netz</sub></td></tr>
-        <tr><td>Strom</td><td>I<sub>Leiter</sub> = I<sub>Strang</sub></td><td>I<sub>Leiter</sub> = √3·I<sub>Strang</sub></td></tr>
-        <tr><td>Leistung</td><td colspan="2">P = √3·U<sub>L</sub>·I<sub>L</sub>·cos(φ)</td></tr>
-      </table>
-      <div class="formula" style="margin-top:10px">
-        <div class="label">Gesamtwirkleistung (symmetrisch)</div>
-        P<sub>ges</sub> = 3·U<sub>Phase</sub>²/R = √3·U<sub>L</sub>·I<sub>L</sub>·cos(φ)
-      </div>
-      <div class="formula">
-        <div class="label">Neutralleiterstrom (unsymmetrisch)</div>
-        I<sub>N</sub> = I<sub>1</sub> + I<sub>2</sub> + I<sub>3</sub>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="yellow">Unsymmetrischer Betrieb (mit Neutralleiter)</h3>
-      <ol style="padding-left:18px;font-size:13px;line-height:2">
-        <li>Leiterströme berechnen: I<sub>k</sub> = U<sub>kN</sub>/Z<sub>k</sub></li>
-        <li>I<sub>N</sub> = I<sub>1</sub> + I<sub>2</sub> + I<sub>3</sub> (komplexe Addition!)</li>
-        <li>Z<sub>N</sub> = 0 angenommen (idealer Neutralleiter)</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3 class="yellow">Probe MEP Aufgabe 13 – Drehstrom</h3>
-      <div class="rule yellow">
-        Spannung U<sub>AB</sub> zwischen zwei Punkten A und B in einem Dreiphasensystem:<br>
-        → Phasoren aufstellen, Maschen- und Knotengleichungen lösen<br>
-        → Vektoraddition und -subtraktion in Polarform
-      </div>
-      <div class="formula">
-        <div class="label">U<sub>AB</sub> berechnen</div>
-        U<sub>AB</sub> = U<sub>AN</sub> – U<sub>BN</sub> &nbsp;(Vektorsubtraktion)
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════
-     PROBE MEP ÜBERSICHT
-     ════════════════════════════════════════════════ -->
-<div id="mep" class="section">
-  <div class="section-title red">📝 Probe MEP – Aufgabenübersicht &amp; Lösungsansätze</div>
-
-  <div class="tip">
-    <strong>Prüfung:</strong> 120 min &nbsp;|&nbsp; Eigene handgeschriebene Zusammenfassung (max. 4 A4-Seiten = 2 Blätter) &nbsp;|&nbsp; Taschenrechner ohne Kommunikation &nbsp;|&nbsp; Lösungsweg MUSS dokumentiert sein!
-  </div>
-
-  <div class="grid-2">
-    <div class="card">
-      <h3 class="red">Aufgabe 1 – Grundlagen MC (10P)</h3>
-      <table>
-        <tr><th>Frage</th><th>Richtige Antwort</th></tr>
-        <tr><td>a) Gefährliche Spannung</td><td>Ab 50V</td></tr>
-        <tr><td>b) Guter Leiter hat…</td><td>Bewegliche Ladungsträger</td></tr>
-        <tr><td>c) Stromdurchflossener Widerstand…</td><td>Erzeugt immer Wärme &amp; hat Wirkleistung</td></tr>
-        <tr><td>d) Lineare Spannungsquelle</td><td>Konstanter Innenwiderstand R<sub>i</sub></td></tr>
-        <tr><td>e) Strom verdoppelt → Verlustleistung…</td><td>Vervierfacht (P=I²·R)</td></tr>
-        <tr><td>f) Spule mit konstantem Strom</td><td>Kein E-Feld, fällt keine Spannung ab</td></tr>
-      </table>
-    </div>
-
-    <div class="card">
-      <h3 class="red">Aufgabe 2 – Material &amp; Gleichstrom (8P)</h3>
-      <div class="formula">
-        <div class="label">Quader: l=25cm, b=10cm, h=5cm, I=25A, U=0.1V</div>
-        R = U/I = 0.1/25 = 4mΩ
-      </div>
-      <div class="formula">
-        J = I/A = 25A/(10cm · 5cm) = 0.5 A/cm²
-      </div>
-      <div class="formula">
-        ρ = R·A/l = 4mΩ · 50cm² / 25cm &nbsp;[Einheiten anpassen!]
-      </div>
-      <div class="formula">
-        p<sub>vol</sub> = P/V = U·I/V &nbsp;(Leistung pro Volumen)
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="red">Aufgabe 3 – Netzwerk 15 Widerstände (10P)</h3>
-      <div class="rule red">
-        Jeder R = 12Ω. P<sub>R4</sub> = 3W gesucht → U<sub>AB</sub>?
-      </div>
-      <ol style="padding-left:18px;font-size:13px;line-height:2">
-        <li>Schaltung sorgfältig analysieren/umzeichnen</li>
-        <li>R4-Strom: I<sub>R4</sub> = √(P/R) = √(3/12) = 0.5A</li>
-        <li>Von R4 rückwärts zu A-B hochrechnen (Kirchhoff)</li>
-        <li>Ersatzwiderstände schrittweise bestimmen</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3 class="red">Aufgabe 4 – Innenwiderstand (4P)</h3>
-      <div class="rule red">
-        Zwei Messungen: (64V, 0.64A) und (30V, 2.0A)
-      </div>
-      <div class="formula">
-        R<sub>i</sub> = –ΔU/ΔI = –(64–30)/(0.64–2.0) = –34/–1.36 = 25Ω
-      </div>
-      <div class="formula">
-        U<sub>q</sub> = U + I·R<sub>i</sub> = 64 + 0.64·25 = 80V
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="red">Aufgabe 5 – NordBalt Kabel (7P)</h3>
-      <div class="rule red">700MW, ±300kV, 400km Unterwasser (1730mm²), 62km Land (2010mm²), Al: γ=37.7·10⁶ S/m</div>
-      <div class="formula">
-        a) W = P·t = 700MW · 8760h = 6.132·10¹² Wh
-      </div>
-      <div class="formula">
-        b) ρ = 1/γ &nbsp;|&nbsp; R = ρ·l/A &nbsp;(für jedes Segment, Hin+Rück!)
-      </div>
-      <div class="formula">
-        c) I = P/(2·U<sub>DC</sub>) &nbsp;|&nbsp; J = I/A
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="red">Aufgabe 6 – Ströme und Spannungen (6P)</h3>
-      <div class="rule red">Gleichstromschaltung: I1, I0, U3, U6 gesucht</div>
-      <ol style="padding-left:18px;font-size:13px;line-height:2">
-        <li>Ersatzwiderstände berechnen</li>
-        <li>Knotenregel aufstellen</li>
-        <li>Maschenregel aufstellen</li>
-        <li>Gleichungssystem lösen</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3 class="red">Aufgabe 7 – Batterie Energie (4P)</h3>
-      <div class="formula">
-        <div class="label">Duracell 9V, P=10mW, bis 5V entladen</div>
-        W = P · t &nbsp;(aus Diagramm: t ablesen)
-      </div>
-      <div class="formula">
-        Grösster Entladestrom bei kleinster Spannung:<br>
-        I<sub>max</sub> = P / U<sub>min</sub> = 10mW / 5V = 2mA
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="red">Aufgabe 8 – Wirkungsgrad &amp; Phasenverschiebung (4P)</h3>
-      <div class="formula">
-        <div class="label">Motor: η=75%, M=3Nm, n=600/min, 230V, I=1.25A</div>
-        P<sub>mech</sub> = M·ω = 3·(2π·600/60) = 3·62.83 = 188.5W
-      </div>
-      <div class="formula">
-        P<sub>el</sub> = P<sub>mech</sub>/η = 188.5/0.75 = 251.3W
-      </div>
-      <div class="formula">
-        cos(φ) = P<sub>el</sub>/(U·I) = 251.3/(230·1.25) → φ = arccos(…)
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="red">Aufgabe 9 – Ausgleichsvorgang RC (11P)</h3>
-      <div class="rule red">Schaltung: U<sub>q</sub>=60V, C=100μF, R1=10kΩ, R2=20kΩ, R3=40kΩ</div>
-      <div class="formula">
-        a) τ = R<sub>ers</sub>·C &nbsp;|&nbsp; R<sub>ers</sub> = R1 ‖ (R2+R3)
-        = 10k ‖ 60k = 60/7·kΩ ≈ 8.57kΩ
-        τ ≈ 857ms
-      </div>
-      <div class="formula">
-        b) u<sub>C</sub>(0⁺) = 0V (Kondensator vorher leer)
-      </div>
-      <div class="formula">
-        c) u<sub>C</sub>(∞) = U<sub>q</sub>·R<sub>23</sub>/(R1+R<sub>23</sub>) = 60·60k/70k ≈ 51.4V
-      </div>
-      <div class="formula">
-        d) u<sub>C</sub>(t) = 51.4·(1 – e<sup>–t/τ</sup>) [V] &nbsp;für t≥0
-      </div>
-      <div class="formula">
-        e) u<sub>R1</sub>(0⁺) = U<sub>q</sub>·R<sub>23</sub>/(R1+R<sub>23</sub>) &nbsp;oder via Knotenregel
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="red">Aufgabe 11 – Wechselstrom RC-Last (5P)</h3>
-      <div class="rule red">V1=230V∠0°, 50Hz, P=294W, Q=–199var</div>
-      <div class="formula">
-        S = √(P²+Q²) = √(294²+199²) &nbsp;VA
-      </div>
-      <div class="formula">
-        I = S/U &nbsp;|&nbsp; φ = arctan(Q/P)
-      </div>
-      <div class="formula">
-        Z = U/I∠φ &nbsp;|&nbsp; R = Z·cos(φ) &nbsp;|&nbsp; X<sub>C</sub> = Z·sin(φ)
-      </div>
-      <div class="formula">
-        C = 1/(ω·X<sub>C</sub>) = 1/(2π·50·X<sub>C</sub>)
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 class="red">Aufgabe 12 – Steckdosen (4P)</h3>
-      <div class="formula">
-        P<sub>max</sub> = U · I<sub>max</sub> = 230V · I<sub>max</sub>
-      </div>
-      <table>
-        <tr><th>Typ</th><th>I<sub>max</sub></th><th>P<sub>max</sub></th></tr>
-        <tr><td>Typ 13</td><td>10A</td><td>2300 W</td></tr>
-        <tr><td>Typ 15</td><td>10A</td><td>2300 W</td></tr>
-        <tr><td>Typ 23</td><td>16A</td><td>3680 W</td></tr>
-        <tr><td>Typ 25</td><td>16A</td><td>3680 W</td></tr>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════════════
-     WICHTIGE KONSTANTEN & FORMELN
-     ════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-title">📐 Wichtige Konstanten &amp; Materialwerte</div>
-  <div class="grid-3">
-    <div class="card">
-      <h3 class="blue">Materialien – Spez. Widerstand ρ</h3>
-      <table>
-        <tr><th>Material</th><th>ρ [Ω·mm²/m]</th><th>γ [S·m/mm²]</th></tr>
-        <tr><td>Silber</td><td>0.016</td><td>62.5</td></tr>
-        <tr><td>Kupfer</td><td>0.0178</td><td>56</td></tr>
-        <tr><td>Gold</td><td>0.022</td><td>45</td></tr>
-        <tr><td>Aluminium</td><td>0.028</td><td>37.7</td></tr>
-        <tr><td>Eisen</td><td>0.1</td><td>10</td></tr>
-        <tr><td>Quecksilber</td><td>0.96</td><td>1.04</td></tr>
-      </table>
-    </div>
-    <div class="card">
-      <h3 class="blue">SI-Präfixe</h3>
-      <table>
-        <tr><th>Präfix</th><th>Symbol</th><th>Faktor</th></tr>
-        <tr><td>Giga</td><td>G</td><td>10⁹</td></tr>
-        <tr><td>Mega</td><td>M</td><td>10⁶</td></tr>
-        <tr><td>Kilo</td><td>k</td><td>10³</td></tr>
-        <tr><td>Milli</td><td>m</td><td>10⁻³</td></tr>
-        <tr><td>Mikro</td><td>μ</td><td>10⁻⁶</td></tr>
-        <tr><td>Nano</td><td>n</td><td>10⁻⁹</td></tr>
-        <tr><td>Piko</td><td>p</td><td>10⁻¹²</td></tr>
-      </table>
-    </div>
-    <div class="card">
-      <h3 class="blue">Wichtige Konstanten</h3>
-      <table>
-        <tr><th>Grösse</th><th>Wert</th></tr>
-        <tr><td>Elementarladung e₀</td><td>1.602 · 10⁻¹⁹ C</td></tr>
-        <tr><td>ε₀ (el. Feldkonstante)</td><td>8.854 · 10⁻¹² As/Vm</td></tr>
-        <tr><td>μ₀ (magn. Feldkonstante)</td><td>1.257 · 10⁻⁶ Vs/A</td></tr>
-        <tr><td>α (Kupfer, 20°C)</td><td>0.0039 K⁻¹</td></tr>
-        <tr><td>α (Al, 20°C)</td><td>0.0040 K⁻¹</td></tr>
-        <tr><td>Netz CH: f, U</td><td>50 Hz, 230/400V</td></tr>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- FORMELSAMMLUNG KOMPAKT -->
-<div class="section">
-  <div class="section-title">📋 Kompakte Formelübersicht</div>
+  <!-- WOCHENPROGRAMM: alles was aktuell aktiv ist, kumulativ -->
   <div class="card">
-    <table>
-      <tr>
-        <th>Thema</th><th>Formel</th><th>Einheit</th><th>Bemerkung</th>
-      </tr>
-      <tr><td>Ohm</td><td><code>U = R·I</code></td><td>V, Ω, A</td><td>Grundgesetz der ET</td></tr>
-      <tr><td>Leistung</td><td><code>P = U·I = U²/R = I²·R</code></td><td>W</td><td>DC und Effektivwerte AC</td></tr>
-      <tr><td>Energie</td><td><code>W = P·t</code></td><td>J = Ws</td><td>1 kWh = 3.6 MJ</td></tr>
-      <tr><td>Wirkungsgrad</td><td><code>η = P_ab/P_zu</code></td><td>–</td><td>≤ 1</td></tr>
-      <tr><td>Motor</td><td><code>P_mech = M·ω = M·2π·n/60</code></td><td>W</td><td>n in min⁻¹</td></tr>
-      <tr><td>Spez. Widerstand</td><td><code>R = ρ·l/A</code></td><td>Ω</td><td>ρ in Ω·mm²/m</td></tr>
-      <tr><td>Temperatur</td><td><code>R(ϑ) = R₂₀·(1+α·ΔT)</code></td><td>Ω</td><td>ΔT = ϑ – 20°C</td></tr>
-      <tr><td>Kondensator C</td><td><code>C = Q/U = ε·A/d</code></td><td>F</td><td>i = C·Δu/Δt</td></tr>
-      <tr><td>Energie C</td><td><code>W = C·U²/2</code></td><td>J</td><td></td></tr>
-      <tr><td>Kapazität parallel</td><td><code>C = C₁+C₂+…</code></td><td>F</td><td>wie R in Serie</td></tr>
-      <tr><td>Kapazität serie</td><td><code>1/C = 1/C₁+1/C₂+…</code></td><td>F</td><td>wie R parallel</td></tr>
-      <tr><td>Induktivität L</td><td><code>L = N·Φ/I</code></td><td>H</td><td>u = L·Δi/Δt</td></tr>
-      <tr><td>Energie L</td><td><code>W = L·I²/2</code></td><td>J</td><td></td></tr>
-      <tr><td>RC Zeitkonstante</td><td><code>τ = R·C</code></td><td>s</td><td>5τ = praktisch fertig</td></tr>
-      <tr><td>RL Zeitkonstante</td><td><code>τ = L/R</code></td><td>s</td><td>5τ = praktisch fertig</td></tr>
-      <tr><td>Ausgleich allgemein</td><td><code>y(t) = y(∞)+[y(0⁺)–y(∞)]·e^(–t/τ)</code></td><td>–</td><td>Universalformel</td></tr>
-      <tr><td>Effektivwert</td><td><code>U = Û/√2</code></td><td>V</td><td>nur Sinus!</td></tr>
-      <tr><td>Kreisfrequenz</td><td><code>ω = 2π·f</code></td><td>rad/s</td><td></td></tr>
-      <tr><td>X_C (kapazitiv)</td><td><code>X_C = 1/(ω·C)</code></td><td>Ω</td><td>∠–90°, I eilt vor</td></tr>
-      <tr><td>X_L (induktiv)</td><td><code>X_L = ω·L</code></td><td>Ω</td><td>∠+90°, U eilt vor</td></tr>
-      <tr><td>Impedanz</td><td><code>Z = U/I ∠φ</code></td><td>Ω</td><td>komplexe Zahl</td></tr>
-      <tr><td>Scheinleistung</td><td><code>S = U·I</code></td><td>VA</td><td>S²=P²+Q²</td></tr>
-      <tr><td>Wirkleistung</td><td><code>P = U·I·cos(φ)</code></td><td>W</td><td>cos(φ) = P/S</td></tr>
-      <tr><td>Blindleistung</td><td><code>Q = U·I·sin(φ)</code></td><td>var</td><td>L: Q>0 / C: Q<0</td></tr>
-      <tr><td>Drehstrom Leiter-U</td><td><code>U_L = √3 · U_Phase</code></td><td>V</td><td>400V / √3 = 230V</td></tr>
-      <tr><td>Drehstrom Leistung</td><td><code>P = √3·U_L·I_L·cos(φ)</code></td><td>W</td><td>symmetrisch</td></tr>
-      <tr><td>Innenwiderstand</td><td><code>R_i = –ΔU/ΔI</code></td><td>Ω</td><td>aus Kennlinie</td></tr>
-      <tr><td>Spannungsteiler</td><td><code>U₂ = U_q·R₂/(R₁+R₂)</code></td><td>V</td><td>Serie</td></tr>
-      <tr><td>Stromteiler</td><td><code>I₂ = I·R₁/(R₁+R₂)</code></td><td>A</td><td>Parallel</td></tr>
-      <tr><td>Stromdichte</td><td><code>J = I/A</code></td><td>A/mm²</td><td>typ. 2–10 A/mm²</td></tr>
-      <tr><td>Knotenregel</td><td><code>ΣI = 0</code></td><td>A</td><td>im Knoten</td></tr>
-      <tr><td>Maschenregel</td><td><code>ΣU = 0</code></td><td>V</td><td>in Masche</td></tr>
-    </table>
+    <div class="card-title"><span class="lane-num">≡</span>Was diese Woche gilt</div>
+    <div class="card-sub">Baut sich auf — was einmal eingeführt ist, bleibt bestehen.</div>
+    <div id="programContent"></div>
   </div>
+
+  <!-- EMOM / DAILY PROGRAMM -->
+  <div class="card" id="emomCard">
+    <div class="card-title"><span class="lane-num">⏱</span>Daily Programm</div>
+    <div class="card-sub" id="emomSub">Fix, jeden Tag — EMOM-Stil, möglichst zeiteffizient durchziehen.</div>
+    <div class="day-progress" id="dayProgress" style="display:none;"></div>
+    <div id="emomContent"></div>
+  </div>
+
+</main>
+
 </div>
 
-<div style="text-align:center;color:var(--muted);font-size:12px;margin-top:24px;padding-top:16px;border-top:1px solid var(--border)">
-  ET+L HSLU FS26 · Zusammenfassung erstellt aus Blocks 1–8 + Probe MEP · Mai 2026
+<!-- ===== TRAININGSPLAN-ANSICHT ===== -->
+<div id="trainingView" style="display:none;">
+  <main>
+    <div class="card">
+      <div class="card-title"><span class="lane-num">🏋</span>Morgen-Krafttraining</div>
+      <div class="card-sub">30 Min, eine Übung, 8×15. Immer gleicher Slot, Mo–Fr.</div>
+      <div id="trainingTableContent"></div>
+    </div>
+  </main>
 </div>
 
-</div>
+<footer>Lane 1 — Bahn frei. 28. Juni → 14. September.</footer>
+
+<script>
+/* ================= DATEN ================= */
+// Jede Woche ist EINE Quelle der Wahrheit: Thema, Zeitraum, Trainingsdetails, was neu dazukommt.
+
+const splitByDay = {
+  Mo: { name:"Deadlifts", group:"Hamstrings", sets:"8×15" },
+  Di: { name:"Bankdrücken", group:"Brust", sets:"8×15" },
+  Mi: { name:"Squats", group:"Beine", sets:"8×15" },
+  Do: { name:"Rudern am Kabelturm (Breitgriff)", group:"Rücken", sets:"8×15" },
+  Fr: { name:"Schulterdrücken", group:"Schulter", sets:"8×15" },
+};
+
+const weekPlans = [
+  {
+    id:0, label:"Wo 1", start:"2026-06-29", end:"2026-07-05", range:"29. Jun – 5. Jul",
+    theme:"Schlaf + EMOM", urlaub:false, splitActive:false, sprintActive:false, trainingstageZiel:3,
+    desc:"Fixe Aufstehzeit etablieren und das EMOM-Programm starten. Mind. 3 Morgentrainings schaffen — wenn's läuft, gleich täglich.",
+    emomTotal:40,
+    neu:[ {text:"Fixe Aufstehzeit (6:00) + direkt duschen, kein Schlummern", permanent:true},
+          {text:"Handy beim Schlafen weglegen", permanent:true},
+          {text:"EMOM-Programm: Dips, Klimmzüge, Klappmesser", permanent:true} ]
+  },
+  {
+    id:1, label:"Wo 2", start:"2026-07-06", end:"2026-07-12", range:"6. – 12. Jul",
+    theme:"Training auf 5 Tage", urlaub:false, splitActive:true, sprintActive:false, trainingstageZiel:5,
+    desc:"Erste Arbeitswoche. Krafttraining auf 5 Morgen pro Woche bringen (siehe Trainingsplan). Schlaf + EMOM laufen unverändert weiter.",
+    emomTotal:40,
+    neu:[ {text:"Krafttraining 5×/Woche, siehe Trainingsplan-Seite", permanent:true} ]
+  },
+  {
+    id:2, label:"Wo 3", start:"2026-07-13", end:"2026-07-17", range:"13. – 17. Jul",
+    theme:"Sprint", urlaub:false, splitActive:true, sprintActive:true, trainingstageZiel:5,
+    desc:"Letzte Woche vor dem Urlaub. Sprinttraining kommt fix dazu — freitags abends.",
+    emomTotal:60,
+    neu:[ {text:"Sprinttraining fix, freitags abends", permanent:true} ]
+  },
+  {
+    id:3, label:"Urlaub 1", start:"2026-07-18", end:"2026-07-24", range:"18. – 24. Jul",
+    theme:"Kaffee + Lesen", urlaub:true, splitActive:false, sprintActive:false, trainingstageZiel:0,
+    desc:"Handyfrei, kein Social Media. Kaffee reduzieren: nur noch alle 2 Tage einer. Lesen beginnt — 10 Min/Tag, für die Ruhe.",
+    emomTotal:60,
+    neu:[ {text:"Handy: nur Maps + Notfälle, kein Social Media", permanent:true, note:"Urlaub-Regel"},
+          {text:"Kaffee: nur alle 2 Tage einer", permanent:false},
+          {text:"Lesen: 10 Min/Tag beginnen", permanent:true} ]
+  },
+  {
+    id:4, label:"Urlaub 2", start:"2026-07-25", end:"2026-07-31", range:"25. – 31. Jul",
+    theme:"Kaffee + Lesen", urlaub:true, splitActive:false, sprintActive:false, trainingstageZiel:0,
+    desc:"Kaffee weiter reduzieren: nur noch alle 3 Tage einer. Lesen + Handyfrei bleiben.",
+    emomTotal:60,
+    neu:[ {text:"Kaffee: nur alle 3 Tage einer", permanent:false} ]
+  },
+  {
+    id:5, label:"Wo 4", start:"2026-08-01", end:"2026-08-07", range:"1. – 7. Aug",
+    theme:"Kaffee ausschleichen", urlaub:false, splitActive:true, sprintActive:true, trainingstageZiel:5,
+    desc:"Zurück aus dem Urlaub, Training wieder hochfahren. Kaffee jetzt bewusst statt Reflex — Genuss oder gezielt, kein Automatismus.",
+    emomTotal:60,
+    neu:[ {text:"Kaffee bewusst: Genuss oder gezielter Einsatz, kein Reflex", permanent:true} ]
+  },
+  {
+    id:6, label:"Wo 5", start:"2026-08-08", end:"2026-08-14", range:"8. – 14. Aug",
+    theme:"Zimmer", urlaub:false, splitActive:true, sprintActive:true, trainingstageZiel:5,
+    desc:"Feste 5-Minuten-Ordnung im Zimmer einbauen, einmal pro Woche reicht als Start.",
+    emomTotal:80,
+    neu:[ {text:"Zimmer: 1×/Woche aufräumen, fixer Tag", permanent:true} ]
+  },
+  {
+    id:7, label:"Wo 6", start:"2026-08-15", end:"2026-08-21", range:"15. – 21. Aug",
+    theme:"Supplements", urlaub:false, splitActive:true, sprintActive:true, trainingstageZiel:5,
+    desc:"Supplements regelmässig nach dem Training einbauen, fixer Bestandteil der Morgenroutine.",
+    emomTotal:80,
+    neu:[ {text:"Supplements regelmässig nach dem Training", permanent:true} ]
+  },
+  {
+    id:8, label:"Wo 7", start:"2026-08-22", end:"2026-08-28", range:"22. – 28. Aug",
+    theme:"Finanzen", urlaub:false, splitActive:true, sprintActive:true, trainingstageZiel:5,
+    desc:"Finanzen-Slot fest einplanen (1–2h diesen Monat), Rechnungen ab jetzt sofort zahlen statt aufzuschieben.",
+    emomTotal:100,
+    neu:[ {text:"Finanzen-Slot diesen Monat einplanen (1–2h)", permanent:true},
+          {text:"Rechnungen sofort zahlen, nicht aufschieben", permanent:true} ]
+  },
+  {
+    id:9, label:"Wo 8", start:"2026-08-29", end:"2026-09-04", range:"29. Aug – 4. Sep",
+    theme:"Konsolidieren", urlaub:false, splitActive:true, sprintActive:true, trainingstageZiel:5,
+    desc:"Nichts Neues — alles bisher Eingeführte soll jetzt einfach sitzen, bevor die letzte Woche und die Schule kommen.",
+    emomTotal:100,
+    neu:[ {text:"Kein neues Thema — Fokus auf Konstanz", permanent:false} ]
+  },
+  {
+    id:10, label:"Wo 9", start:"2026-09-05", end:"2026-09-13", range:"5. – 13. Sep",
+    theme:"Joggen + Unternehmung", urlaub:false, splitActive:true, sprintActive:true, trainingstageZiel:5,
+    desc:"Letzte Woche vor der Schule. Joggen dazu (Sa/So) und 1×/Monat eine richtige Unternehmung mit Freundin/Freunden nicht vergessen.",
+    emomTotal:120,
+    neu:[ {text:"Joggen 1×/Woche dazu (Sa oder So)", permanent:true},
+          {text:"1×/Monat: richtige Unternehmung (wandern, biken, Go-Kart...)", permanent:true},
+          {text:"Bewusster Umgang mit Pornos/Masturbation, mehr Zeit/Dates in die Beziehung", permanent:true} ]
+  },
+];
+
+// Übung ↔ Unterwegs-Alternative, gleiches Zielvolumen für beide Varianten
+const emomExercises = [
+  { key:"dips", name:"Dips", altName:"Liegestütz" },
+  { key:"klimm", name:"Klimmzüge", altName:"Superman" },
+  { key:"klapp", name:"Klappmesser", altName:"Situps" },
+];
+
+
+/* ================= STATE ================= */
+
+// viewDate = welcher Tag wird gerade angezeigt (kann von "heute" abweichen, wenn man durchklickt)
+// realToday = der tatsächliche heutige Tag (bleibt fix für die EMOM-Speicherung)
+let realToday = new Date();
+let viewDate = new Date();
+
+/* ================= LOGIK ================= */
+
+function isoDate(d){
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,'0');
+  const day = String(d.getDate()).padStart(2,'0');
+  return y + "-" + m + "-" + day;
+}
+function weekdayShort(date){
+  const map = ["So","Mo","Di","Mi","Do","Fr","Sa"];
+  return map[date.getDay()];
+}
+
+function currentWeekPlan(date){
+  const t = isoDate(date);
+  for(const wp of weekPlans){
+    if(t >= wp.start && t <= wp.end) return wp;
+  }
+  if(t < weekPlans[0].start) return weekPlans[0];
+  return weekPlans[weekPlans.length-1];
+}
+
+// Letzte Woche, die vor der Arbeit liegt (Wo 1, id 0) braucht Sonderbehandlung beim Tagesplan,
+// da hier noch keine feste Arbeitszeit gilt.
+function isPreWorkWeek(weekPlan){ return weekPlan.id === 0; }
+
+function renderHeader(){
+  const opts = { weekday:'long', day:'numeric', month:'long', year:'numeric' };
+  document.getElementById('todayDate').textContent = realToday.toLocaleDateString('de-DE', opts);
+}
+
+function isViewingToday(){
+  return isoDate(viewDate) === isoDate(realToday);
+}
+
+function updateJumpButtonAndBanner(){
+  const btn = document.getElementById('jumpToday');
+  const banner = document.getElementById('viewingBanner');
+
+  if(isViewingToday()){
+    btn.classList.remove('visible');
+    banner.style.display = "none";
+  } else {
+    btn.classList.add('visible');
+    const opts = { weekday:'long', day:'numeric', month:'long' };
+    banner.style.display = "block";
+    banner.textContent = "Du schaust: " + viewDate.toLocaleDateString('de-DE', opts) + " — nicht heute";
+  }
+}
+
+function renderWeekNav(){
+  const weekOfView = currentWeekPlan(viewDate);
+  const nav = document.getElementById('weekNav');
+  nav.innerHTML = "";
+  weekPlans.forEach(wp=>{
+    const pill = document.createElement('div');
+    pill.className = "week-pill";
+    if(wp.urlaub) pill.classList.add('vacation');
+    if(wp.id === weekOfView.id) pill.classList.add('active');
+    pill.innerHTML = `<span class="wp-label">${wp.label}</span><span class="wp-range">${wp.range}</span>`;
+    pill.onclick = () => {
+      viewDate = new Date(wp.start + "T00:00:00");
+      renderAll();
+    };
+    nav.appendChild(pill);
+  });
+}
+
+function renderWeekThemeCard(weekPlan){
+  document.getElementById('weekRange').textContent = weekPlan.label + " · " + weekPlan.range;
+  document.getElementById('weekThemeTitle').textContent = weekPlan.theme;
+  document.getElementById('weekThemeDesc').textContent = weekPlan.desc;
+}
+
+// Sammelt alle "neu"-Items von Woche 0 bis zur aktuellen Woche, die als permanent markiert sind,
+// plus die "neu"-Items der aktuellen Woche selbst (auch wenn nicht permanent, z.B. Kaffee-Reduktion).
+function buildCumulativeProgram(weekPlan){
+  let items = [];
+  for(const wp of weekPlans){
+    if(wp.id > weekPlan.id) break;
+    wp.neu.forEach(item=>{
+      const isCurrentWeek = (wp.id === weekPlan.id);
+      if(item.permanent || isCurrentWeek){
+        items.push({
+          text: item.text,
+          note: item.note || "",
+          isNew: isCurrentWeek,
+          isBase: !isCurrentWeek
+        });
+      }
+    });
+  }
+  // Krafttraining/Sprint als feste Programmpunkte ergänzen, gesteuert über splitActive/sprintActive
+  if(weekPlan.splitActive){
+    const already = items.some(i => i.text.includes("Krafttraining"));
+    if(!already){
+      items.push({text:"Krafttraining 5×/Woche, siehe Trainingsplan-Seite", note:"", isNew:false, isBase:true});
+    }
+  }
+  return items;
+}
+
+function renderProgramCard(weekPlan){
+  const content = document.getElementById('programContent');
+  content.innerHTML = "";
+
+  const items = buildCumulativeProgram(weekPlan);
+
+  items.forEach(item=>{
+    const row = document.createElement('div');
+    row.className = "program-item " + (item.isNew ? "is-new" : "is-base");
+    row.innerHTML = `
+      <div class="pi-icon">${item.isNew ? "●" : "✓"}</div>
+      <div class="pi-text">${item.text}${item.note ? `<span class="pi-note">${item.note}</span>` : ''}</div>
+    `;
+    content.appendChild(row);
+  });
+}
+
+function getCheckKey(dateStr, exKey){ return "check_" + dateStr + "_" + exKey; }
+function isExerciseDone(dateStr, exKey){ return localStorage.getItem(getCheckKey(dateStr, exKey)) === "1"; }
+function toggleExercise(dateStr, exKey){
+  const key = getCheckKey(dateStr, exKey);
+  const cur = localStorage.getItem(key) === "1";
+  localStorage.setItem(key, cur ? "0" : "1");
+}
+
+function renderEmomCard(weekPlan){
+  const content = document.getElementById('emomContent');
+  const sub = document.getElementById('emomSub');
+  const progressEl = document.getElementById('dayProgress');
+  content.innerHTML = "";
+
+  const isHoliday = weekPlan.urlaub;
+  const isPreWork = isPreWorkWeek(weekPlan);
+  const viewDateStr = isoDate(viewDate);
+  const canCheck = isViewingToday();
+
+  if(isPreWork){
+    sub.textContent = "Diese Woche: mindestens " + weekPlan.trainingstageZiel + "× Krafttraining schaffen — wenn's läuft, gleich täglich durchziehen.";
+  } else if(isHoliday){
+    sub.textContent = "Urlaub-Version: gleiches Volumen, nur ohne Gerät (Klammer-Übung). Abends oder morgens — wie's passt.";
+  } else {
+    sub.textContent = "EMOM-Stil, ca. 20 Wdh./Minute. Mit Gerät, sonst die Klammer-Alternative ohne Gerät. Meist abends nach der Arbeit, am Wochenende eher morgens.";
+  }
+
+  const total = weekPlan.emomTotal;
+
+  if(canCheck){
+    const doneCount = emomExercises.filter(ex => isExerciseDone(viewDateStr, ex.key)).length;
+    progressEl.style.display = "block";
+    progressEl.textContent = doneCount + " / " + emomExercises.length + " erledigt heute";
+  } else {
+    progressEl.style.display = "none";
+  }
+
+  emomExercises.forEach(ex=>{
+    const done = canCheck && isExerciseDone(viewDateStr, ex.key);
+    const row = document.createElement('div');
+    row.className = "exercise-row" + (canCheck ? " checkable" : "");
+    row.innerHTML = `
+      <div class="exercise-row-inner">
+        ${canCheck ? `<div class="ex-checkbox ${done?'checked':''}"></div>` : ''}
+        <div class="ex-name ${done?'checked-text':''}">${ex.name} <span class="ex-sub" style="display:inline;text-transform:none;">(${ex.altName} unterwegs)</span></div>
+      </div>
+      <div class="ex-target">${total}<span class="ex-total">Wdh. gesamt</span></div>
+    `;
+    if(canCheck){
+      row.onclick = () => {
+        toggleExercise(viewDateStr, ex.key);
+        renderEmomCard(weekPlan);
+      };
+    }
+    content.appendChild(row);
+  });
+}
+
+// Statische Trainingstabelle — ändert sich nicht mit der Woche, reine Übersicht
+function renderTrainingTable(){
+  const content = document.getElementById('trainingTableContent');
+  content.innerHTML = "";
+  const days = ["Mo","Di","Mi","Do","Fr"];
+  days.forEach(d=>{
+    const lift = splitByDay[d];
+    const row = document.createElement('div');
+    row.className = "train-day-row";
+    row.innerHTML = `
+      <div class="train-day-tag">${d}</div>
+      <div class="train-day-info">
+        <div class="td-name">${lift.name}</div>
+        <div class="td-group">${lift.group}</div>
+      </div>
+      <div class="train-day-sets">${lift.sets}</div>
+    `;
+    content.appendChild(row);
+  });
+}
+
+function renderAll(){
+  const weekPlan = currentWeekPlan(viewDate);
+
+  renderHeader();
+  updateJumpButtonAndBanner();
+  renderWeekNav();
+  renderWeekThemeCard(weekPlan);
+  renderProgramCard(weekPlan);
+  renderEmomCard(weekPlan);
+}
+
+document.getElementById('jumpToday').onclick = () => {
+  viewDate = new Date(realToday);
+  renderAll();
+};
+
+// Tab-Switching
+const tabWeek = document.getElementById('tabWeek');
+const tabTraining = document.getElementById('tabTraining');
+const weekView = document.getElementById('weekView');
+const trainingView = document.getElementById('trainingView');
+
+tabWeek.onclick = () => {
+  tabWeek.classList.add('active');
+  tabTraining.classList.remove('active');
+  weekView.style.display = "block";
+  trainingView.style.display = "none";
+};
+
+tabTraining.onclick = () => {
+  tabTraining.classList.add('active');
+  tabWeek.classList.remove('active');
+  weekView.style.display = "none";
+  trainingView.style.display = "block";
+};
+
+renderTrainingTable();
+renderAll();
+</script>
+
 </body>
 </html>
